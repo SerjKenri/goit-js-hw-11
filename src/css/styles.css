@@ -77,3 +77,24 @@ body {
 .photo-card .info {
   text-align: center;
 }
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  max-width: 348px;
+  font-size: 9px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #c3c2c2;
+  border-left: 1px solid #c3c2c2;
+  border-right: 1px solid #c3c2c2;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08),
+    0px 2px 2px rgba(0, 0, 0, 0.12);
+}
+
+.info .info-item {
+  margin-top: 0px;
+}

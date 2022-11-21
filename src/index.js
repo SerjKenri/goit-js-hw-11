@@ -41,9 +41,9 @@ function searchPhoto (evt) {
 }
 
 function renderImages (image) {
-    const images = image.map(images => {
-        return `<div class="photo-card">
-        <a href="${images.largeImageURL}"><img class="photo" src="${images.webformatURL}" alt="${images.tags}" title="${images.tags}" loading="lazy"/></a>
+    const images = image.map(images => 
+        `<div class="photo-card">
+        <a href="${images.largeImageURL}"><img class="photo" src="${images.webformatURL}" alt="${images.tags}" title="${images.tags}" loading="lazy"/>
             <div class="info">
                 <p class="info-item">
                 <b>Likes</b>${images.likes}
@@ -58,8 +58,9 @@ function renderImages (image) {
                 <b>Downloads</b>${images.downloads} 
                 </p>
             </div>
-        </div>`
-    }).join('');
+        </div>
+        </a>`
+    ).join('');
     
     
     refs.renderEl.insertAdjacentHTML('beforeend', images);
