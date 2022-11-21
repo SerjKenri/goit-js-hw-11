@@ -10,6 +10,7 @@ export const fetchImages = async (inputValue, page) => {
         if (response.status === 404) {
             return [];
         }
+
     }
     return await imagesList;
     } catch (errors) {

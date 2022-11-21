@@ -17,7 +17,7 @@ const options = {
     treshold: 1,
 };
 
-let observer = new IntersectionObserver(observerObj, options);
+const observer = new IntersectionObserver(observerObj, options);
 
 
 let pageNumber = 1;
@@ -80,7 +80,6 @@ function renderImages (image) {
     
     refs.renderEl.insertAdjacentHTML('beforeend', images);
     
-    observer.observe(refs.sentryEl)
 
     gallerySimple.refresh();
 }
@@ -113,7 +112,7 @@ function observerObj (entries) {
         if (e.isIntersecting) {
             pageNumber += 1;
             fetchImages(timmedValue, pageNumber).then(data => {
-                console.log(pageNumber);
+                
                 renderImages(data.hits);
             })
         }
