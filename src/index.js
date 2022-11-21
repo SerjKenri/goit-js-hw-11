@@ -73,7 +73,7 @@ window.addEventListener('scroll', () => {
         pageNumber += 1;
         fetchImages(timmedValue, pageNumber).then(data => {
             renderImages(data.hits);
-            
+            gallerySimple.refresh();
         })
     }
 },);
