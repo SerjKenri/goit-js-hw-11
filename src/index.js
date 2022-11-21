@@ -81,7 +81,6 @@ function renderImages (image) {
     
     refs.renderEl.insertAdjacentHTML('beforeend', images);
     
-    
     gallerySimple.refresh();
 }
 
@@ -106,18 +105,19 @@ function observerObj (entries) {
     if (entries[0].intersectionRatio === 1 && pageNumber === totalPage) {
         Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
         observer.unobserve(refs.sentryEl);
+    } else if (pageNumber <= totalPage) {
+        const timmedValue = refs.inputValue.value.trim();
+        entries.forEach((e) => {
+            if (e.isIntersecting) {
+                pageNumber += 1;
+                fetchImages(timmedValue, pageNumber).then(data => {
+                    
+                    renderImages(data.hits);
+                })
+            }
+        })
     }
-
-    const timmedValue = refs.inputValue.value.trim();
-    entries.forEach((e) => {
-        if (e.isIntersecting) {
-            pageNumber += 1;
-            fetchImages(timmedValue, pageNumber).then(data => {
-                
-                renderImages(data.hits);
-            })
-        }
-    })
+    
 }
 
 
