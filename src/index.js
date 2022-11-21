@@ -46,16 +46,16 @@ function renderImages (image) {
         <a href="${images.largeImageURL}"><img class="photo" src="${images.webformatURL}" alt="${images.tags}" title="${images.tags}" loading="lazy"/>
             <div class="info">
                 <p class="info-item">
-                <b>Likes</b>${images.likes}
+                <b>Likes:</b>${images.likes}
                 </p>
                 <p class="info-item">
-                <b>Views</b>${images.views}  
+                <b>Views:</b>${images.views}  
                 </p>
                 <p class="info-item">
-                <b>Comments</b>${images.comments}
+                <b>Comments:</b>${images.comments}
                 </p>
                 <p class="info-item">
-                <b>Downloads</b>${images.downloads} 
+                <b>Downloads:</b>${images.downloads} 
                 </p>
             </div>
         </div>
