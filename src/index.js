@@ -77,10 +77,11 @@ function renderImages (image) {
         </a>`
     ).join('');
     
+    observer.observe(refs.sentryEl);
     
     refs.renderEl.insertAdjacentHTML('beforeend', images);
     
-
+    
     gallerySimple.refresh();
 }
 
