@@ -13,7 +13,7 @@ const gallerySimple = new SimpleLightbox('.gallery a', {
 
 const options = {
     root: null,
-    rootMargin: '200px',
+    rootMargin: '250px',
     treshold: 1,
 };
 
@@ -21,6 +21,8 @@ let observer = new IntersectionObserver(observerObj, options);
 
 
 let pageNumber = 1;
+let totalPage = 13;
+
 
 const refs = {
     inputValue: document.querySelector('.search-form-input'),
@@ -100,15 +102,18 @@ function renderImages (image) {
 // },);
 
 function observerObj (entries) {
+
+    if (entries[0].intersectionRatio === 1 && pageNumber === totalPage) {
+        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+        observer.unobserve(refs.sentryEl);
+    }
+
     const timmedValue = refs.inputValue.value.trim();
     entries.forEach((e) => {
         if (e.isIntersecting) {
             pageNumber += 1;
             fetchImages(timmedValue, pageNumber).then(data => {
-                if (fetchImages.status === 400) {
-                    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-                }
-                Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+                console.log(pageNumber);
                 renderImages(data.hits);
             })
         }
