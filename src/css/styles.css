@@ -1,0 +1,79 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.search-toolbar {
+  background-color: #4056b4;
+  height: 15%;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.search-form-input {
+  padding: 10px;
+  font-size: 15px;
+  border: none;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  float: left;
+  width: 300px;
+  outline: none;
+  background: #f1f1f1;
+}
+
+.search-form-button {
+  float: left;
+  width: 50px;
+  padding: 10px;
+  background: #c3c2c2;
+  color: #000;
+  font-size: 15px;
+  border: none;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-left: none;
+  cursor: pointer;
+}
+
+.search-form-button:hover {
+  background: #c3c2c2ce;
+}
+
+.search-form::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 25px;
+}
+
+.photo-card img {
+  display: block;
+  width: 350px;
+  height: 250px;
+}
+.gallery a {
+  text-decoration: none;
+  color: #000;
+}
+
+.gallery .photo-card:not(last-child) {
+  margin-left: 20px;
+}
+
+.gallery .photo-card {
+  margin-bottom: 10px;
+}
+
+.photo-card .info {
+  text-align: center;
+}
