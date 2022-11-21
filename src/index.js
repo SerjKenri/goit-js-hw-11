@@ -1,6 +1,6 @@
 
 import Notiflix from 'notiflix';
-import simpleLightbox from 'simplelightbox';
+import SimpleLightbox from 'simplelightbox';
 import { fetchImages } from './js/fetchCountries';
 import debounce from 'lodash.debounce';
 
@@ -34,7 +34,6 @@ function searchPhoto (evt) {
                 } else {
                     renderImages(data.hits);
                     Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-                    // gallerySimple.refresh();
                 }
             })
         }
@@ -61,8 +60,10 @@ function renderImages (image) {
             </div>
         </div>`
     }).join('');
-
+    
+    
     refs.renderEl.insertAdjacentHTML('beforeend', images);
+    gallerySimple.refresh();
 }
 
 window.addEventListener('scroll', () => {
@@ -73,7 +74,6 @@ window.addEventListener('scroll', () => {
         pageNumber += 1;
         fetchImages(timmedValue, pageNumber).then(data => {
             renderImages(data.hits);
-            gallerySimple.refresh();
         })
     }
 },);
