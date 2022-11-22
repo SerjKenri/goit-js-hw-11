@@ -11,6 +11,14 @@ const gallerySimple = new SimpleLightbox('.gallery a', {
 	captionDelay: 250
 });
 
+
+const refs = {
+    inputValue: document.querySelector('.search-form-input'),
+    buttonEl: document.querySelector('.search-form-button'),
+    renderEl: document.querySelector('.gallery'),
+    sentryEl: document.querySelector('.sentry'),
+};
+
 const options = {
     root: null,
     rootMargin: '250px',
@@ -47,14 +55,6 @@ const observer = new IntersectionObserver(observerObj, options);
 
 let pageNumber = 1;
 let totalPage = 13;
-
-
-const refs = {
-    inputValue: document.querySelector('.search-form-input'),
-    buttonEl: document.querySelector('.search-form-button'),
-    renderEl: document.querySelector('.gallery'),
-    sentryEl: document.querySelector('.sentry'),
-};
 
 refs.buttonEl.addEventListener('click', searchPhoto);
 
