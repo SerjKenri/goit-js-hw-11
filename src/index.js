@@ -14,7 +14,7 @@ const gallerySimple = new SimpleLightbox('.gallery a', {
 const options = {
     root: null,
     rootMargin: '250px',
-    treshold: 1,
+    treshold: 0.5,
 };
 
 const observer = new IntersectionObserver(observerObj, options);
@@ -41,10 +41,11 @@ function searchPhoto (evt) {
         const timmedValue = refs.inputValue.value.trim();
         if (timmedValue !== "") {
             fetchImages(timmedValue, pageNumber).then(data => {
-                if (data.hits.length === 0) {
+                if (data.totalHits === 0) {
                     Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
                 } else {
                     renderImages(data.hits);
+                    observer.observe(refs.sentryEl);
                     if(data.totalHits < 500){
                         Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
                     }
@@ -77,7 +78,6 @@ function renderImages (image) {
         </a>`
     ).join('');
     
-    observer.observe(refs.sentryEl);
     
     refs.renderEl.insertAdjacentHTML('beforeend', images);
     
@@ -101,14 +101,15 @@ function renderImages (image) {
 // },);
 
 function observerObj (entries) {
-
+console.log(entries);
     if (entries[0].intersectionRatio === 1 && pageNumber === totalPage) {
         Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
         observer.unobserve(refs.sentryEl);
-    } else if (pageNumber <= totalPage) {
+    } 
         const timmedValue = refs.inputValue.value.trim();
         entries.forEach((e) => {
             if (e.isIntersecting) {
+                console.log(e)
                 pageNumber += 1;
                 fetchImages(timmedValue, pageNumber).then(data => {
                     
@@ -116,7 +117,7 @@ function observerObj (entries) {
                 })
             }
         })
-    }
+    
     
 }
 

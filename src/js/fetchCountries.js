@@ -6,12 +6,6 @@ export const fetchImages = async (inputValue, page) => {
     try {
     const response = await axios.get(`${BASE_URL}${BASE_PARAMS}`);
     const imagesList = response.data;
-    if(!response.ok) {
-        if (response.status === 404) {
-            return [];
-        }
-
-    }
     return await imagesList;
     } catch (errors) {
     console.error(errors);
