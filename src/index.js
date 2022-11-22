@@ -101,15 +101,16 @@ function renderImages (image) {
 // },);
 
 function observerObj (entries) {
-console.log(entries);
-    if (entries[0].intersectionRatio === 1 && pageNumber === totalPage) {
-        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-        observer.unobserve(refs.sentryEl);
-    } 
+
+    
         const timmedValue = refs.inputValue.value.trim();
         entries.forEach((e) => {
-            if (e.isIntersecting) {
-                console.log(e)
+            if (e.intersectionRatio === 1 && pageNumber === totalPage) {
+                Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+                observer.unobserve(e.target);
+            }else if (e.isIntersecting) {
+                console.log(e.target);
+                console.log(e.intersectionRatio)
                 pageNumber += 1;
                 fetchImages(timmedValue, pageNumber).then(data => {
                     
