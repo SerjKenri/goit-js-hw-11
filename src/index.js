@@ -14,7 +14,32 @@ const gallerySimple = new SimpleLightbox('.gallery a', {
 const options = {
     root: null,
     rootMargin: '250px',
-    treshold: 0.5,
+    treshold: 1,
+};
+
+function observerObj (entries) {
+    const timmedValue = refs.inputValue.value.trim();
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+
+            pageNumber++;
+
+        if (entry.intersectionRatio === 1 && pageNumber === totalPage) {
+                    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+                }
+            fetchImages(timmedValue, pageNumber).then(data => {
+                renderImages(data.hits);
+                const hasPhoto = pageNumber < totalPage && data.totalHits === 500;
+                if (hasPhoto) {
+                    if (data.totalHits < 500) {
+                        return;
+                    }
+                    observer.observe(refs.sentryEl);
+                }
+            });
+        }
+    });
 };
 
 const observer = new IntersectionObserver(observerObj, options);
@@ -44,7 +69,9 @@ function searchPhoto (evt) {
                 if (data.totalHits === 0) {
                     Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
                 } else {
+                    const lastEl = document.querySelector('.gallery:last-child');
                     renderImages(data.hits);
+                    
                     observer.observe(refs.sentryEl);
                     Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
                     if(data.totalHits < 500){
@@ -100,24 +127,24 @@ function renderImages (image) {
 //     }
 // },);
 
-function observerObj (entries) {
-        const timmedValue = refs.inputValue.value.trim();
-        entries.forEach((e) => {
-            if (e.intersectionRatio === 1 && pageNumber === totalPage) {
-                Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-
-                observer.unobserve(e.target);
-
-            } else if (e.isIntersecting) {
-                console.log(e);
-                pageNumber += 1;
-                fetchImages(timmedValue, pageNumber).then(data => {
+// function observerObj (entries) {
+//         const timmedValue = refs.inputValue.value.trim();
+//         entries.forEach((e) => {
+//             console.log(e);
+//             if (e.intersectionRatio === 1 && pageNumber === totalPage) {
+//                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+//             } else if (e.isIntersecting) {
+//                 console.log(e);
+//                 pageNumber += 1;
+//                 fetchImages(timmedValue, pageNumber).then(data => {
                     
-                    renderImages(data.hits);
-                })
-            }
-        })
-};
+//                 renderImages(data.hits);
+
+                
+//                 })
+//             }
+//         })
+// };
 
 
 
