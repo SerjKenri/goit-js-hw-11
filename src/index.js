@@ -1,16 +1,14 @@
-
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import { fetchImages } from './js/fetchCountries';
 import debounce from 'lodash.debounce';
 
-import "simplelightbox/dist/simple-lightbox.min.css";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css';
 
 const gallerySimple = new SimpleLightbox('.gallery a', {
-	captionDelay: 250
+    captionDelay: 250,
 });
-
 
 const refs = {
     inputValue: document.querySelector('.search-form-input'),
@@ -21,11 +19,11 @@ const refs = {
 
 const options = {
     root: null,
-    rootMargin: '250px',
+    rootMargin: '150px',
     treshold: 1,
 };
 
-function observerObj (entries) {
+function observerObj(entries) {
     const timmedValue = refs.inputValue.value.trim();
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -33,12 +31,15 @@ function observerObj (entries) {
 
             pageNumber++;
 
-        if (entry.intersectionRatio === 1 && pageNumber === totalPage) {
-                    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-                }
+            if (entry.intersectionRatio === 1 && pageNumber === totalPage) {
+                Notiflix.Notify.failure(
+                    "We're sorry, but you've reached the end of search results."
+                );
+            }
             fetchImages(timmedValue, pageNumber).then(data => {
                 renderImages(data.hits);
-                const hasPhoto = pageNumber < totalPage && data.totalHits === 500;
+                const hasPhoto =
+                    pageNumber < totalPage && data.totalHits === 500;
                 if (hasPhoto) {
                     if (data.totalHits < 500) {
                         return;
@@ -48,44 +49,50 @@ function observerObj (entries) {
             });
         }
     });
-};
+}
 
 const observer = new IntersectionObserver(observerObj, options);
-
 
 let pageNumber = 1;
 let totalPage = 13;
 
 refs.buttonEl.addEventListener('click', searchPhoto);
 
-function searchPhoto (evt) {
-        evt.preventDefault();
+function searchPhoto(evt) {
+    evt.preventDefault();
 
-        clearSearch();
-    
-        const timmedValue = refs.inputValue.value.trim();
-        if (timmedValue !== "") {
-            fetchImages(timmedValue, pageNumber).then(data => {
-                if (data.totalHits === 0) {
-                    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-                } else {
-                    const lastEl = document.querySelector('.gallery:last-child');
-                    renderImages(data.hits);
-                    
-                    observer.observe(refs.sentryEl);
-                    Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-                    if(data.totalHits < 500){
-                        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-                    }
+    clearSearch();
+
+    const timmedValue = refs.inputValue.value.trim();
+    if (timmedValue !== '') {
+        fetchImages(timmedValue, pageNumber).then(data => {
+            if (data.totalHits === 0) {
+                Notiflix.Notify.failure(
+                    'Sorry, there are no images matching your search query. Please try again.'
+                );
+            } else {
+                const lastEl = document.querySelector('.gallery:last-child');
+                renderImages(data.hits);
+
+                observer.observe(refs.sentryEl);
+                Notiflix.Notify.success(
+                    `Hooray! We found ${data.totalHits} images.`
+                );
+                if (data.totalHits < 500) {
+                    Notiflix.Notify.failure(
+                        "We're sorry, but you've reached the end of search results."
+                    );
                 }
-            })
-        }
-    
+            }
+        });
+    }
 }
 
-function renderImages (image) {
-    const images = image.map(images => 
-        `<div class="photo-card">
+function renderImages(image) {
+    const images = image
+        .map(
+            images =>
+                `<div class="photo-card">
         <a href="${images.largeImageURL}"><img class="photo" src="${images.webformatURL}" alt="${images.tags}" title="${images.tags}" loading="lazy"/>
             <div class="info">
                 <p class="info-item">
@@ -103,52 +110,15 @@ function renderImages (image) {
             </div>
         </div>
         </a>`
-    ).join('');
-    
-    
+        )
+        .join('');
+
     refs.renderEl.insertAdjacentHTML('beforeend', images);
-    
+
     gallerySimple.refresh();
 }
 
-// window.addEventListener('scroll', () => {
-//     const timmedValue = refs.inputValue.value.trim();
-//     const documentRect = document.documentElement.getBoundingClientRect();
-
-//     if (documentRect.bottom < document.documentElement.clientHeight + 150) {
-//         pageNumber += 1;
-//         fetchImages(timmedValue, pageNumber).then(data => {
-//             if(data.totalHits < 500){
-//                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-//             }
-//             Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-//             renderImages(data.hits);
-//         })
-//     }
-// },);
-
-// function observerObj (entries) {
-//         const timmedValue = refs.inputValue.value.trim();
-//         entries.forEach((e) => {
-//             console.log(e);
-//             if (e.intersectionRatio === 1 && pageNumber === totalPage) {
-//                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-//             } else if (e.isIntersecting) {
-//                 console.log(e);
-//                 pageNumber += 1;
-//                 fetchImages(timmedValue, pageNumber).then(data => {
-                    
-//                 renderImages(data.hits);
-
-                
-//                 })
-//             }
-//         })
-// };
-
-
-
-function clearSearch () {
-    refs.renderEl.innerHTML = "";
+function clearSearch() {
+    refs.renderEl.innerHTML = '';
     pageNumber = 1;
-};
+}
